@@ -278,9 +278,22 @@
     font-size:17px; color:#BFE0FF; max-width:40ch;
   }
 
-  /* hero visual: abstract mark built from the logo's roofline + open-book + rule motif */
+  /* hero visual: photograph */
   .hero-visual{ position:relative; z-index:2; }
-  .hero-mark{ width:100%; height:auto; }
+  .hero-visual picture{
+    display:block; border-radius:var(--radius-l); overflow:hidden;
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 30px 70px -30px rgba(0,0,0,.55);
+    position:relative;
+  }
+  .hero-visual picture::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(200deg, rgba(11,37,69,0) 45%, rgba(11,37,69,.45) 100%);
+    pointer-events:none;
+  }
+  .hero-photo{
+    width:100%; height:100%; aspect-ratio:4/5; object-fit:cover; display:block;
+  }
 
   /* organic brush/wave divider */
   .hero-divider{
@@ -498,23 +511,58 @@
   .nextgen-card .ng-sub{ font-size:13px; color:var(--ink-soft); margin-top:6px; font-style:italic;}
   @media (max-width:860px){ .nextgen-block{ grid-template-columns:1fr; padding:36px 26px; } }
 
-  /* ---------- Final CTA ---------- */
-  .final-cta{
-    background:linear-gradient(135deg, var(--green-deep), var(--green) 60%, #0C7A46);
-    border-radius:var(--radius-l);
-    padding:80px 40px;
-    text-align:center;
-    color:#fff;
+  /* ---------- Apply / WhatsApp form ---------- */
+  .apply-card{
+    max-width:620px; margin:0 auto;
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius-l);
+    padding:44px 44px 40px;
+    box-shadow:var(--shadow);
     position:relative; overflow:hidden;
   }
-  .final-cta::before{
-    content:""; position:absolute; inset:0;
-    background:radial-gradient(circle at 20% 20%, rgba(255,255,255,.14), transparent 45%);
+  .apply-card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:6px;
+    background:linear-gradient(90deg, var(--blue), var(--green));
   }
-  .final-cta h2{ color:#fff; font-size:clamp(1.9rem,4vw,2.8rem); position:relative;}
-  .final-cta p{ color:#E8F5EC; max-width:52ch; margin:18px auto 0; position:relative; font-size:17px;}
-  .final-cta .hero-ctas{ justify-content:center; margin-top:36px; position:relative;}
-  .final-cta .btn-ghost-light{ border-color:rgba(255,255,255,.6);}
+  .apply-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:30px; }
+  .apply-progress{ display:flex; gap:8px; }
+  .apply-dot{ width:28px; height:5px; border-radius:100px; background:var(--line); transition:background .25s var(--ease); }
+  .apply-dot.active{ background:var(--blue); }
+  .apply-dot.done{ background:var(--green); }
+  .apply-step-label{ font-size:13px; font-weight:600; color:var(--ink-soft); }
+
+  .apply-step{ display:none; }
+  .apply-step.active{ display:block; animation:fadeStep .35s var(--ease); }
+  @keyframes fadeStep{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:translateY(0);} }
+  .apply-step h3{ font-size:21px; margin-bottom:20px; }
+  .apply-hint{ font-size:14px; margin-bottom:20px; }
+
+  .field{ margin-bottom:20px; }
+  .field label{ display:block; font-size:13.5px; font-weight:600; color:var(--navy); margin-bottom:8px; }
+  .field input, .field select{
+    width:100%; padding:13px 16px; border:1.5px solid var(--line); border-radius:10px;
+    font-family:'Inter',sans-serif; font-size:15px; color:var(--ink); background:#fff;
+    transition:border-color .2s var(--ease);
+  }
+  .field input:focus, .field select:focus{ outline:none; border-color:var(--blue); }
+  .field select{ appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%234B5866' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 16px center; padding-right:40px; }
+  .field-error{ font-size:12.5px; color:#C0392B; margin-top:6px; display:none; }
+  .field.invalid input, .field.invalid select{ border-color:#C0392B; }
+  .field.invalid .field-error{ display:block; }
+
+  .apply-actions{ display:flex; align-items:center; justify-content:space-between; margin-top:8px; gap:12px; }
+  .apply-actions .btn{ padding:13px 24px; }
+
+  .apply-summary{ margin:0 0 26px; display:flex; flex-direction:column; gap:14px; }
+  .apply-summary div{ display:flex; justify-content:space-between; gap:14px; padding-bottom:14px; border-bottom:1px solid var(--line); font-size:14.5px; }
+  .apply-summary dt{ color:var(--ink-soft); font-weight:600; }
+  .apply-summary dd{ margin:0; color:var(--navy); font-weight:600; text-align:right; }
+
+  @media (max-width:560px){
+    .apply-card{ padding:30px 22px 28px; }
+    .apply-actions{ flex-direction:column-reverse; align-items:stretch; }
+    .apply-actions .btn{ width:100%; justify-content:center; }
+    .apply-actions span{ display:none; }
+  }
 
   /* ---------- Footer ---------- */
   footer{ background:#081A32; color:#B9C7D9; padding:72px 0 28px; }
@@ -551,7 +599,8 @@
   @media (max-width:860px){
     .hero{ padding:36px 0 120px; }
     .hero-grid{ grid-template-columns:1fr; }
-    .hero-visual{ max-width:180px; margin:28px auto 0; opacity:0.9; }
+    .hero-visual{ max-width:360px; margin:32px auto 0; }
+    .hero-photo{ aspect-ratio:4/3; }
     .why-layout, .org-section, .featured-card{ gap:36px; }
     .section{ padding:76px 0; }
   }
@@ -573,7 +622,7 @@
       <a href="#contact">Contact</a>
     </nav>
     <div class="nav-actions">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfad1-runR5FDOyaedw3RtYkwzHW3QAaKpxIoVN1x1upRiSJQ/viewform" target="_blank" rel="noopener" class="btn btn-primary btn-sm btn-primary-desktop">Apply / Register</a>
+      <a href="#contact" class="btn btn-primary btn-sm btn-primary-desktop">Apply / Register</a>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
         <span></span><span></span><span></span>
       </button>
@@ -592,25 +641,16 @@
         <p class="lede">Shan-Phill Training delivers practical, hands-on training and certification in trades, hospitality, business and customer service &mdash; for individuals building a career and organizations building a workforce.</p>
         <div class="hero-ctas">
           <a href="#training" class="btn btn-primary">Explore Training</a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfad1-runR5FDOyaedw3RtYkwzHW3QAaKpxIoVN1x1upRiSJQ/viewform" target="_blank" rel="noopener" class="btn btn-ghost-light">Apply / Register</a>
+          <a href="#contact" class="btn btn-ghost-light">Apply / Register</a>
         </div>
         <p class="hero-tagline">&ldquo;Training is not a business; it&rsquo;s our passion.&rdquo;</p>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <svg class="hero-mark" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="210" cy="210" r="200" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-          <circle cx="210" cy="210" r="150" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
-          <!-- roofline -->
-          <path d="M110 190 L210 120 L310 190" stroke="#00933A" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <!-- open book -->
-          <path d="M110 195 C150 178 190 178 210 200 C230 178 270 178 310 195 L310 300 C270 283 230 283 210 305 C190 283 150 283 110 300 Z" stroke="#00933A" stroke-width="9" stroke-linejoin="round" fill="rgba(0,147,58,0.08)"/>
-          <line x1="210" y1="200" x2="210" y2="305" stroke="#00933A" stroke-width="7"/>
-          <!-- brand vertical rule + accent dots -->
-          <line x1="352" y1="120" x2="352" y2="300" stroke="#0078FF" stroke-width="8" stroke-linecap="round"/>
-          <circle cx="352" cy="98" r="7" fill="#0078FF"/>
-          <circle cx="68" cy="330" r="6" fill="#BFE0FF"/>
-          <circle cx="352" cy="330" r="6" fill="#BFE0FF"/>
-        </svg>
+      <div class="hero-visual">
+        <picture>
+          <source media="(max-width: 600px)" srcset="https://images.unsplash.com/photo-1690356107685-3725367f6f3f?q=80&amp;w=900&amp;auto=format&amp;fit=crop">
+          <source media="(min-width: 601px)" srcset="https://images.unsplash.com/photo-1690356107685-3725367f6f3f?q=80&amp;w=1200&amp;auto=format&amp;fit=crop">
+          <img src="https://images.unsplash.com/photo-1690356107685-3725367f6f3f?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" alt="Trainees practising hands-on trade skills in a workshop setting" loading="eager" width="1200" height="1500" class="hero-photo">
+        </picture>
       </div>
     </div>
 
@@ -733,7 +773,7 @@
           <span class="course-type" style="background:var(--mist); color:var(--ink-soft);">Coming soon</span>
           <h3 style="color:var(--ink-soft);">More business courses</h3>
           <p>Additional professional and business programmes will be listed here as they are confirmed.</p>
-          <a class="card-link" href="https://docs.google.com/forms/d/e/1FAIpQLSfad1-runR5FDOyaedw3RtYkwzHW3QAaKpxIoVN1x1upRiSJQ/viewform" target="_blank" rel="noopener">Register interest <span class="arrow">&rarr;</span></a>
+          <a class="card-link" href="#contact">Register interest <span class="arrow">&rarr;</span></a>
         </article>
       </div>
     </div>
@@ -794,7 +834,7 @@
             <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#00933A"/><path d="M5 9.3L7.6 12L13 6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Progression: Level 1 leads into a Level 2 programme</li>
           </ul>
           <div class="hero-ctas" style="margin-top:32px;">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfad1-runR5FDOyaedw3RtYkwzHW3QAaKpxIoVN1x1upRiSJQ/viewform" target="_blank" rel="noopener" class="btn btn-primary">Apply / Register</a>
+            <a href="#contact" class="btn btn-primary">Apply / Register</a>
             <a href="#contact" class="btn btn-ghost-light">Ask About This Programme</a>
           </div>
         </div>
@@ -918,16 +958,96 @@
     </div>
   </section>
 
-  <!-- ============ FINAL CTA ============ -->
-  <section class="section" id="contact">
+  <!-- ============ APPLY / WHATSAPP FORM ============ -->
+  <section class="section section-alt" id="contact">
     <div class="container">
-      <div class="final-cta reveal">
+      <div class="section-head reveal" style="margin-left:auto; margin-right:auto; text-align:center;">
+        <div class="eyebrow" style="justify-content:center;">Get started</div>
         <h2>Ready to take the next step?</h2>
-        <p>Explore a programme, or apply directly if you already know what you want to train in.</p>
-        <div class="hero-ctas">
-          <a href="#training" class="btn" style="background:#fff; color:var(--green-deep);">Explore Training</a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfad1-runR5FDOyaedw3RtYkwzHW3QAaKpxIoVN1x1upRiSJQ/viewform" target="_blank" rel="noopener" class="btn btn-ghost-light">Apply / Register</a>
+        <p>Answer three quick questions and we&rsquo;ll open WhatsApp with your details already filled in, ready to send to Shan-Phill Training.</p>
+      </div>
+
+      <div class="apply-card reveal">
+        <div class="apply-head">
+          <div class="apply-progress" aria-hidden="true">
+            <span class="apply-dot active" data-dot="1"></span>
+            <span class="apply-dot" data-dot="2"></span>
+            <span class="apply-dot" data-dot="3"></span>
+          </div>
+          <span class="apply-step-label">Step <span id="stepCurrent">1</span> of 3</span>
         </div>
+
+        <form id="applyForm" novalidate>
+
+          <div class="apply-step active" data-step="1">
+            <h3>Which programme are you interested in?</h3>
+            <div class="field" id="field-course">
+              <label for="f-course">Programme</label>
+              <select id="f-course" required>
+                <option value="" disabled selected>Select a programme</option>
+                <optgroup label="CVQ &amp; Vocational Training">
+                  <option>Electrical Installation (Level 1)</option>
+                  <option>Electrical Installation (Level 2)</option>
+                  <option>House Keeping (Level 1)</option>
+                  <option>Front Office Procedures (Level 1)</option>
+                </optgroup>
+                <optgroup label="Certificate Courses">
+                  <option>Bread, Cakes &amp; Pastry (Level 1)</option>
+                  <option>Supervisory Management</option>
+                  <option>Customer Service</option>
+                </optgroup>
+                <optgroup label="Professional &amp; Business Training">
+                  <option>CAPE Management of Business</option>
+                </optgroup>
+                <option value="Not sure yet — general inquiry">Not sure yet &mdash; general inquiry</option>
+              </select>
+              <div class="field-error">Please select a programme to continue.</div>
+            </div>
+            <div class="apply-actions">
+              <span></span>
+              <button type="button" class="btn btn-primary" data-next>Next</button>
+            </div>
+          </div>
+
+          <div class="apply-step" data-step="2">
+            <h3>Your details</h3>
+            <div class="field" id="field-name">
+              <label for="f-name">Full name</label>
+              <input id="f-name" type="text" required placeholder="e.g. Jane Charles" autocomplete="name">
+              <div class="field-error">Please enter your full name.</div>
+            </div>
+            <div class="field" id="field-phone">
+              <label for="f-phone">Contact number</label>
+              <input id="f-phone" type="tel" required placeholder="e.g. 758 123 4567" autocomplete="tel">
+              <div class="field-error">Please enter a contact number.</div>
+            </div>
+            <div class="field">
+              <label for="f-status">Employment status</label>
+              <select id="f-status">
+                <option value="" disabled selected>Select one</option>
+                <option>Full Time Employee</option>
+                <option>Part Time Employee</option>
+                <option>Unemployed</option>
+                <option>Student</option>
+              </select>
+            </div>
+            <div class="apply-actions">
+              <button type="button" class="btn btn-outline-navy" data-back>Back</button>
+              <button type="button" class="btn btn-primary" data-next>Next</button>
+            </div>
+          </div>
+
+          <div class="apply-step" data-step="3">
+            <h3>Review &amp; send</h3>
+            <p class="apply-hint">This opens WhatsApp with a message ready to go &mdash; you&rsquo;ll still need to hit send there.</p>
+            <dl class="apply-summary" id="applySummary"></dl>
+            <div class="apply-actions">
+              <button type="button" class="btn btn-outline-navy" data-back>Back</button>
+              <a href="https://wa.me/17587127876" target="_blank" rel="noopener" id="sendWhatsApp" class="btn btn-green">Send via WhatsApp</a>
+            </div>
+          </div>
+
+        </form>
       </div>
     </div>
   </section>
@@ -946,7 +1066,7 @@
         <li><a href="#training">Training</a></li>
         <li><a href="#why">About</a></li>
         <li><a href="#organizations">For Organizations</a></li>
-        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfad1-runR5FDOyaedw3RtYkwzHW3QAaKpxIoVN1x1upRiSJQ/viewform" target="_blank" rel="noopener">Registration</a></li>
+        <li><a href="#contact">Registration</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -967,12 +1087,12 @@
   </div>
   <div class="container footer-bottom">
     <span>&copy; <span id="year"></span> Shan-Phill Training. All rights reserved.</span>
-    <span>Jamal Samuel Built</span>
+    <span>Jamal Samuel built</span>
   </div>
 </footer>
 
 <div class="mobile-sticky-cta">
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfad1-runR5FDOyaedw3RtYkwzHW3QAaKpxIoVN1x1upRiSJQ/viewform" target="_blank" rel="noopener" class="btn btn-primary">Apply / Register</a>
+  <a href="#contact" class="btn btn-primary">Apply / Register</a>
 </div>
 
 <script>
@@ -1002,6 +1122,97 @@
       document.getElementById(tab.dataset.target).classList.add('active');
     });
   });
+
+  // Apply / WhatsApp multi-step form
+  (function(){
+    const form = document.getElementById('applyForm');
+    if (!form) return;
+    const WHATSAPP_NUMBER = '17587127876';
+    const steps = Array.from(form.querySelectorAll('.apply-step'));
+    const dots = Array.from(document.querySelectorAll('.apply-dot'));
+    const stepLabel = document.getElementById('stepCurrent');
+    let current = 1;
+
+    const courseEl = document.getElementById('f-course');
+    const nameEl = document.getElementById('f-name');
+    const phoneEl = document.getElementById('f-phone');
+    const statusEl = document.getElementById('f-status');
+    const summaryEl = document.getElementById('applySummary');
+    const sendLink = document.getElementById('sendWhatsApp');
+
+    function showStep(n){
+      steps.forEach(s => s.classList.toggle('active', Number(s.dataset.step) === n));
+      dots.forEach(d => {
+        const dn = Number(d.dataset.dot);
+        d.classList.toggle('active', dn === n);
+        d.classList.toggle('done', dn < n);
+      });
+      stepLabel.textContent = n;
+      current = n;
+      if (n === 3) buildSummary();
+    }
+
+    function setInvalid(fieldId, invalid){
+      const field = document.getElementById(fieldId);
+      if (field) field.classList.toggle('invalid', invalid);
+    }
+
+    function validateStep1(){
+      const ok = !!courseEl.value;
+      setInvalid('field-course', !ok);
+      return ok;
+    }
+    function validateStep2(){
+      const nameOk = nameEl.value.trim().length > 1;
+      const phoneOk = phoneEl.value.trim().length > 5;
+      setInvalid('field-name', !nameOk);
+      setInvalid('field-phone', !phoneOk);
+      return nameOk && phoneOk;
+    }
+
+    function buildSummary(){
+      const status = statusEl.value || 'Not specified';
+      summaryEl.innerHTML = `
+        <div><dt>Programme</dt><dd>${escapeHtml(courseEl.value)}</dd></div>
+        <div><dt>Name</dt><dd>${escapeHtml(nameEl.value)}</dd></div>
+        <div><dt>Contact</dt><dd>${escapeHtml(phoneEl.value)}</dd></div>
+        <div><dt>Employment status</dt><dd>${escapeHtml(status)}</dd></div>
+      `;
+      const message = [
+        "Hi Shan-Phill Training! I'd like to register for training.",
+        "",
+        `Programme: ${courseEl.value}`,
+        `Name: ${nameEl.value.trim()}`,
+        `Contact number: ${phoneEl.value.trim()}`,
+        `Employment status: ${status}`
+      ].join('\n');
+      sendLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    }
+
+    function escapeHtml(str){
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    form.querySelectorAll('[data-next]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (current === 1 && !validateStep1()) return;
+        if (current === 2 && !validateStep2()) return;
+        showStep(Math.min(3, current + 1));
+      });
+    });
+    form.querySelectorAll('[data-back]').forEach(btn => {
+      btn.addEventListener('click', () => showStep(Math.max(1, current - 1)));
+    });
+    [courseEl, nameEl, phoneEl].forEach(el => {
+      el.addEventListener('input', () => {
+        if (el === courseEl) setInvalid('field-course', false);
+        if (el === nameEl) setInvalid('field-name', false);
+        if (el === phoneEl) setInvalid('field-phone', false);
+      });
+    });
+  })();
 
   // Scroll reveal
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
